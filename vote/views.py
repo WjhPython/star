@@ -1,22 +1,41 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 
-from django.http import JsonResponse
-from django.shortcuts import render, render_to_response
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render_to_response
 
 from models import Question, Choice
 from models import User
 
 # Create your views here.
 
-def login(request):
+
+def main(request):
+    return render_to_response("login.html")
+
+
+def _login(request):
     if request.method == "POST":
         username = request.POST["username"]
         password = request.POST["password"]
-    if not (username or password):
-        Error = "用户名或者密码错误！"
-        context = ("login.html",{"Error", Error})
-        return render_to_response(context)
+        if not (username or password):
+            error = "用户名或者密码错误！"
+            context = ("login.html",{"error", error})
+            return render_to_response(context)
+        user = authenticate(username=username,password=password)
+        if user is not None:
+            login(request,user)
+            questions = Question.objects.all()
+            return render_to_response('question.html',{'questions': questions})
+        else :
+            error = "*用户名或密码错误"
+            context = {"error": error}
+            return render_to_response('login.html',context)
+    else:
+        error = "服务器错误！"
+        context = {"error": error}
+        return render_to_response('login.html',context)
+
 
 
 def vote(request, id):

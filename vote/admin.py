@@ -8,12 +8,20 @@ from models import Question
 from models import Choice
 from models import UserDiviceId
 from models import User
+from models import Banana
 # Register your models here.
+
+
+class BananaAdmin(admin.ModelAdmin):
+    list_display = ("title",)
+    list_filter = ("add_date",)
+    search_fields = ["title"]
 
 
 class UserAdmin(admin.ModelAdmin):
     list_display = ("username", "password", "register_date", "last_login_date")
     list_filter = ("register_date",)
+
 
 class ChoiceInline(admin.TabularInline):
     model = Choice
@@ -22,7 +30,6 @@ class ChoiceInline(admin.TabularInline):
 
 class ChoiceAdmin(admin.ModelAdmin):
     list_display = ("choice","votes")
-
 
 
 class QuestionAdmin(admin.ModelAdmin):
@@ -42,10 +49,12 @@ class UserDiviceIdForm(forms.ModelForm):
         model = UserDiviceId
         fields =["diviced_id"]
 
+
 class UserDiviceIdAdmin(admin.ModelAdmin):
     form = UserDiviceIdForm
     list_display = ("diviced_id",)
 
+admin.site.register(Banana, BananaAdmin)
 admin.site.register(User, UserAdmin)
 admin.site.register(Choice, ChoiceAdmin)
 admin.site.register(Question, QuestionAdmin)

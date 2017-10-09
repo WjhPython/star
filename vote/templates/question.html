@@ -16,8 +16,8 @@
 <ul class="list-group">
     {% if questions %}
         {% for question in questions %}
+            {% csrf_token %}
             <li class="list-group-item">
-                {% csrf_token %}
                 <a href="/vote/choice/{{question.id}}/">{{question.question}}</a></li>
         {% endfor %}
     {% endif %}

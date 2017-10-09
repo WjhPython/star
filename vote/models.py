@@ -6,11 +6,22 @@ from django.db import models
 # Create your models here.
 
 
+class Banana(models.Model):
+    title = models.CharField(max_length=300, unique=True, db_index=True, blank=False)
+    url = models.CharField(max_length=300,db_index=True,blank=False)
+    picture = models.ImageField(blank=True, default="")
+    movie_time = models.CharField(max_length=100, blank=True, default="")
+    add_date = models.DateTimeField()
+
+    class Meta:
+        db_table = "banana"
+
+
 class User(models.Model):
     username = models.CharField(max_length=15, unique=True, db_index=True)
     password = models.CharField(max_length=50)
-    register_date = models.DateTimeField()
     last_login_date = models.DateTimeField()
+    register_date = models.DateTimeField()
 
     class Meta:
         db_table = "user"

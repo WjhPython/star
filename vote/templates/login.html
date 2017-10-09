@@ -1,26 +1,49 @@
 ﻿<!DOCTYPE html>
-<html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
 <title>星星问卷</title>
-<link rel="shortcut icon" href="../static/resources/images/favicon.ico" />
-<link href="../static/resources/style/style.css" rel="stylesheet" type="text/css" />
-<script type="text/javascript" src="../static/resources/js/jquery.js"></script>
-<script type="text/javascript" src="../static/resources/js/jquery.i18n.properties-1.0.9.js" ></script>
-<script type="text/javascript" src="../static/resources/js/jquery-ui-1.10.3.custom.js"></script>
-<script type="text/javascript" src="../static/resources/js/jquery.validate.js"></script>
-<script type="text/javascript" src="../static/resources/js/md5.js"></script>
-<script type="text/javascript" src="../static/resources/js/page_login.js?lang=zh"></script>
-<!--[if IE]>
-  <script src="resources/js/html5.js"></script>
-<![endif]-->
-<!--[if lte IE 6]>
-	<script src="resources/js/DD_belatedPNG_0.0.8a-min.js" language="javascript"></script>
-	<script>
-	  DD_belatedPNG.fix('div,li,a,h3,span,img,.png_bg,ul,input,dd,dt');
-	</script>
-<![endif]-->
+    <script type="text/javascript" charset="utf-8">
+        function  a() {
+
+            var username =document.getElementById("username");
+            var namelb =document.getElementById("namelb");
+            var text =  username.value;
+
+            if(text==""){
+                namelb.innerHTML="*用户名不能为空";
+                namelb.style.color="red";
+                return false;
+
+            }
+            namelb.innerHTML="*用户名填写正确";
+            namelb.style.color="green";
+            return true;
+        }
+        function b(){
+            var userpwd =document.getElementById("password");
+            var userlb =document.getElementById("pwdlb");
+            var text =  userpwd.value;
+            if(text==""){
+                userlb.innerHTML="*密码不能为空";
+                userlb.style.color="red";
+                return false;
+
+            }
+            userlb.innerHTML="*密码填写正确";
+            userlb.style.color="green";
+            return true;
+        }
+        function  s() {
+            a();
+            b();
+            if(a()&&b()){
+                return true;
+            }
+            return false;
+        }
+
+    </script>
 </head>
 <body class="loginbody">
 <div class="dataEye">
@@ -33,21 +56,19 @@
 			<div class="loginbox-title">
 				<h3>登录</h3>
 			</div>
-			<form action="/login/" method="post">
-			<div class="login-error"></div>
-			<div class="row">
-				<label class="field">用户名</label>
-				<input type="text" class="input-text-user input-click" name="username">
-			</div>
-			<div class="row">
-				<label class="field">密码</label>
-				<input type="password" class="input-text-password input-click" name="password">
-			</div>
-			<div class="row btnArea">
-				<a class="login-btn" id="submit">登录</a>
-			</div>
+            {% if error %}
+                <p>{{ error }}</p>
+            {% endif %}
+            {% csrf_token %}
+			<form action="/vote/_login/" method="POST">
+                <label>用户名</label>
+				<input type="text" id="username" name="username" onblur="a()"><label id="namelb"></label>
+                </br>
+				<label>密码</label>
+				<input type="password" id="password" name="password" onblur="b()"><label id="pwdlb"></label><br />
+				<input type="submit" value="登录" onclick="return s()">
 			<div class="row tips">
-				<a href="forget.jsp" class="link">忘记密码</a>
+				<a href="#" class="link">忘记密码</a>
 			</div>
 			</form>
 		</div>
@@ -59,20 +80,12 @@
 	
 <div id="footer">
 	<div class="dblock">
-		<div class="inline-block"><img src="../static/resources/images/logo-gray.png"></div>
 		<div class="inline-block copyright">
 			<p><a href="#">关于我们</a> | <a href="#">微博</a> | <a href="#">隐私政策</a> | <a href="#">人员招聘</a></p>
 			<p> Copyright © 2017 星星问卷</p>
 		</div>
 	</div>
 </div>
-</div>
-<div class="loading">
-	<div class="mask">
-		<div class="loading-img">
-		<img src="../static/resources/images/loading.gif" width="31" height="31">
-		</div>
-	</div>
 </div>
 </body>
 </html>
